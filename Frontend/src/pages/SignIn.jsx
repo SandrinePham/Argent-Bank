@@ -1,13 +1,14 @@
-// src/pages/SignIn.jsx
 import "./signin.scss";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // adapte le chemin
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",      // ici on utilise "email"
     password: "",
     rememberMe: false,
   });
@@ -23,20 +24,23 @@ const SignIn = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { username, password } = formData;
+    const { email, password } = formData;
 
-    if (!username || !password) {
+    if (!email || !password) {
       setError("Merci de remplir tous les champs.");
       return;
     }
 
-    // ✅ Simule une connexion réussie
-    setError("");
-    console.log("Authentifié :", formData);
-    navigate("/user");
+    try {
+      setError("");
+      await login(email, password);
+      navigate("/dashboard"); // Redirige vers le tableau de bord après la connexion
+    } catch (err) {
+      setError(err.message || "Erreur lors de la connexion");
+    }
   };
 
   return (
@@ -49,13 +53,14 @@ const SignIn = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              type="email"
+              id="email"
+              name="email"            // ici aussi
+              value={formData.email}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -67,6 +72,7 @@ const SignIn = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </div>
 

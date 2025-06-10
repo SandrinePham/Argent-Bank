@@ -1,5 +1,6 @@
 @use "../assets/style/variables.scss" as variables;
 
+.headerDisconnected,
 .headerDisconnected {
   display: flex;
   align-items: center;
@@ -8,8 +9,15 @@
   padding: 5px 20px;
 }
 
+.headerNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-.headerLogoDisconnected {
+.headerLogoDisconnected,
+.headerLogoConnected {
   width: 200px;
 }
 
@@ -26,7 +34,6 @@
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
-
 
 .headerSignin {
   display: flex;
@@ -48,5 +55,43 @@
 .header-signin i {
   font-size: 1.5rem;
   font-size: inherit;
+}
 
+.headerUser {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 30px;
+  padding: 20px;
+  color: variables.$secondary-color;
+}
+
+.headerUserName {
+  font-size: 15px;
+}
+
+.logoutButton {
+  color: variables.$secondary-color;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.headerIcon {
+  font-size: 30px;
+  color: variables.$secondary-color;
+}
+
+.signinLink {
+  color: variables.$secondary-color;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+  &:visited {
+    color: inherit;
+  }
 }

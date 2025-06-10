@@ -1,35 +1,71 @@
 import "./header.scss";
 import Logo from "../../src/assets/images/argentBankLogo.png";
-import { Link } from "react-router-dom";
-import useAuth from "../hook/UseAuth";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { UserContext } from "../context/UserContext";
 
 function Header() {
-  const isAuthenticated = useAuth();
+  const { token, logout } = useContext(AuthContext);
+  const { userName, loading, error } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/signin");
+  };
+
+  const isAuthenticated = !!token;
+
   return (
-    <>
-      {!isAuthenticated ? (
-        <header className="headerDisconnected">
-          <nav>
-            <Link to="/">
-              <img src={Logo} alt="Argent Bank Logo" className="headerLogoDisconnected" />
+    <header
+      className={isAuthenticated ? "headerConnected" : "headerDisconnected"}
+    >
+      <nav className="headerNav">
+        <Link to="/">
+          <img
+            src={Logo}
+            alt="Argent Bank Logo"
+            className={
+              isAuthenticated ? "headerLogoConnected" : "headerLogoDisconnected"
+            }
+          />
+        </Link>
+
+        {isAuthenticated ? (
+          <div className="headerUser">
+            {/* Affichage du nom d'utilisateur */}
+            {loading ? (
+              <span className="headerUserName">Chargement...</span>
+            ) : error ? (
+              <span className="headerUserName">Erreur</span>
+            ) : (
+              <span className="headerUserName">
+                {userName || "Utilisateur"}
+              </span>
+            )}
+            <i className="fas fa-user-circle headerIcon"></i>
+
+            <Link to="/user">
+              <i className="fas fa-cog headerIcon"></i>
             </Link>
-          </nav>
-          <h1 className="sr-only">Argent Bank</h1>
-          <div className="headerSignin">
-            <i className="fa fa-user-circle"></i>
-            <nav>
-              <Link to="/signin">Sign In</Link>
-            </nav>
+
+            <button
+              onClick={handleLogout}
+              className="logoutButton"
+              title="Déconnexion"
+            >
+              <i className="fas fa-power-off headerIcon"></i>
+            </button>
           </div>
-        </header>
-      ) : (
-        // À personnaliser : ce qui s'affiche si l'utilisateur est connecté
-        <header className="headerConnected">
-          {/* Ton contenu pour utilisateur connecté ici */}
-          <p>Bienvenue, utilisateur connecté !</p>
-        </header>
-      )}
-    </>
+        ) : (
+          <Link to="/signin" className="signinLink">
+            <i className="fas fa-user-circle headerIcon"></i> Sign In
+          </Link>
+        )}
+      </nav>
+    </header>
   );
 }
+
 export default Header;
