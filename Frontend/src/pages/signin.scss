@@ -1,0 +1,61 @@
+@use "../assets/style/variables.scss" as variables;
+
+
+.signin-page {
+  background-color: variables.$background-color;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start; 
+  padding-top: 3rem; 
+  padding-bottom: 2rem;
+}
+
+.signin-button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  background-color: variables.$secondary-color;
+  color: #fff;
+  border: none;
+}
+
+.signin-content {
+  background-color: white;
+  width: 300px;
+  padding: 2rem;
+  box-sizing: border-box;
+  color: variables.$primary-color;
+}
+
+.signin-icon {
+  font-size: 1rem;
+}
+
+.input-remember {
+  display: flex;
+}
+
+.input-remember label {
+  margin-left: 0.25rem;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.input-wrapper label {
+  font-weight: bold;
+}
+
+.input-wrapper input {
+  padding: 5px;
+  font-size: 1.2rem;
+}

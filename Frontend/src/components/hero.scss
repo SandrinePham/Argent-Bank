@@ -1,0 +1,41 @@
+@use "../assets/style/variables.scss" as variables;
+
+.hero {
+  position: relative;
+}
+
+.hero-img {
+  object-fit: cover;
+  height: 400px;
+  width: 100%;
+  object-position: center 30%;
+  position: relative;
+  z-index: 0;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-20%, -60%);
+  background-color: white;
+  width: 300px;
+  height: auto;
+  text-align: left;
+  z-index: 1;
+  padding: 2rem;
+  margin: 2rem;
+  ;
+}
+
+.hero-subtitle {
+  color: variables.$primary-color;
+  font-weight: bold;
+  margin: 0;
+  font-size: 24px;
+}
+
+.hero-text {
+  font-size: 19px;
+  margin-bottom: 0;
+}

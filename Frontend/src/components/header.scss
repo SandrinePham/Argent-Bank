@@ -1,0 +1,52 @@
+@use "../assets/style/variables.scss" as variables;
+
+.headerDisconnected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  padding: 5px 20px;
+}
+
+
+.headerLogoDisconnected {
+  width: 200px;
+}
+
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important; /* 2 */
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important; /* 3 */
+}
+
+
+.headerSignin {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.headerSignin a {
+  text-decoration: none;
+  color: variables.$primary-color;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.header-signin i {
+  font-size: 1.5rem;
+  font-size: inherit;
+
+}

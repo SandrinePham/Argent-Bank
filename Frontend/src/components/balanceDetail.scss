@@ -1,0 +1,44 @@
+@use "../assets/style/variables.scss" as variables;
+
+.balanceDetail {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$secondary-color;
+  color: white;
+  align-items: center;
+  border-radius: 5px;
+  width: 90%;
+  margin: auto;
+  padding: 5px 20px;
+}
+
+.balanceContent {
+  display: flex;
+  align-items: center;
+  width: 100%;
+    justify-content: space-between;
+
+}
+
+.detailText {
+  margin: 0;
+}
+
+.detailBtn{
+  background-color: variables.$secondary-color;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.detailBtn i {
+  font-size: 0.9rem;
+}
+
+
+.balanceDetailHeader,
+.balanceDetailFooter {
+  display: flex;
+  justify-content: space-around;
+  gap: 100px;
+}

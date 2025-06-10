@@ -1,0 +1,29 @@
+@use "../assets/style/variables.scss" as variables;
+
+.balanceChecking {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: variables.$primary-color;
+  color: white;
+  border-radius: 5px;
+  width: 90%;
+  margin: auto;
+  padding: 0 20px 0 20px;
+}
+
+.balanceText {
+  text-align: left;
+
+}
+
+.balanceTotal {
+  font-size: 30px;
+  font-weight: bold;
+    margin:0;
+
+}
+
+.fa-times {
+  font-size: 50px;
+}
