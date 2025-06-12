@@ -1,19 +1,29 @@
 import "./signin.scss";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../app/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext"; // adapte le chemin
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+
+  const authStatus = useSelector((state) => state.auth.status);
+  const token = useSelector((state) => state.auth.token);
+  const error = useSelector((state) => state.auth.error);
 
   const [formData, setFormData] = useState({
-    email: "",      // ici on utilise "email"
+    email: "",
     password: "",
     rememberMe: false,
   });
 
-  const [error, setError] = useState("");
+  // ✅ Redirection automatique si connecté
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [token, navigate]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,32 +34,24 @@ const SignIn = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const { email, password } = formData;
+    if (!email || !password) return;
 
-    if (!email || !password) {
-      setError("Merci de remplir tous les champs.");
-      return;
-    }
-
-    try {
-      setError("");
-      await login(email, password);
-      navigate("/dashboard"); // Redirige vers le tableau de bord après la connexion
-    } catch (err) {
-      setError(err.message || "Erreur lors de la connexion");
-    }
+    dispatch(login({ email, password }));
   };
 
   return (
     <main className="signin-page">
       <section className="signin-content">
         <i className="fa fa-user-circle signin-icon"></i>
-        <h1>Sign In</h1>
+        <h2>Sign In</h2>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {authStatus === "failed" && (
+          <p style={{ color: "red" }}>{error}</p>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
@@ -57,7 +59,7 @@ const SignIn = () => {
             <input
               type="email"
               id="email"
-              name="email"            // ici aussi
+              name="email"
               value={formData.email}
               onChange={handleChange}
               required
@@ -87,8 +89,12 @@ const SignIn = () => {
             <label htmlFor="remember-me">Remember me</label>
           </div>
 
-          <button type="submit" className="signin-button">
-            Sign In
+          <button
+            type="submit"
+            className="signin-button"
+            disabled={authStatus === "loading"}
+          >
+            {authStatus === "loading" ? "Connexion..." : "Sign In"}
           </button>
         </form>
       </section>
