@@ -15,7 +15,9 @@ function Hero() {
           High interest rates.
           <br />
         </p>
-        <p className="hero-text">Open a savings account with Argent Bank today!</p>
+        <p className="hero-text">
+          Open a savings account with Argent Bank today!
+        </p>
       </div>
     </section>
   );

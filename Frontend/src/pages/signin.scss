@@ -1,14 +1,13 @@
 @use "../assets/style/variables.scss" as variables;
 
-
 .signin-page {
   background-color: variables.$background-color;
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: center; 
-  align-items: flex-start; 
-  padding-top: 3rem; 
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 3rem;
   padding-bottom: 2rem;
 }
 

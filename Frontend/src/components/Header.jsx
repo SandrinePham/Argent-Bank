@@ -33,13 +33,17 @@ function Header() {
   }, [token, dispatch]);
 
   return (
-    <header className={isAuthenticated ? "headerConnected" : "headerDisconnected"}>
+    <header
+      className={isAuthenticated ? "headerConnected" : "headerDisconnected"}
+    >
       <nav className="headerNav">
         <Link to="/">
           <img
             src={Logo}
             alt="Argent Bank Logo"
-            className={isAuthenticated ? "headerLogoConnected" : "headerLogoDisconnected"}
+            className={
+              isAuthenticated ? "headerLogoConnected" : "headerLogoDisconnected"
+            }
           />
         </Link>
 
@@ -62,7 +66,11 @@ function Header() {
               <i className="fas fa-cog headerIcon"></i>
             </Link>
 
-            <button onClick={handleLogout} className="logoutButton" title="Déconnexion">
+            <button
+              onClick={handleLogout}
+              className="logoutButton"
+              title="Déconnexion"
+            >
               <i className="fas fa-power-off headerIcon"></i>
             </button>
           </div>

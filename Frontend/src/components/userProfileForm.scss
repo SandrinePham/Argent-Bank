@@ -1,34 +1,32 @@
 @use "../assets/style/variables.scss" as variables;
 
-
-.formGroup{
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    
+.formGroup {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 }
 
 .userProfileForm {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .buttonGroup {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
 }
 
 .buttonForm {
-    background-color: variables.$secondary-color;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100px;
-    cursor: pointer;
+  background-color: variables.$secondary-color;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100px;
+  cursor: pointer;
 }
 
 input:disabled {
@@ -38,7 +36,7 @@ input:disabled {
   opacity: 1; // pour éviter l'effet trop pâle par défaut
 }
 
-input{
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
+input {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
 }

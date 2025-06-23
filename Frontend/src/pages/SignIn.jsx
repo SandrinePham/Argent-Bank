@@ -49,9 +49,7 @@ const SignIn = () => {
         <i className="fa fa-user-circle signin-icon"></i>
         <h2>Sign In</h2>
 
-        {authStatus === "failed" && (
-          <p style={{ color: "red" }}>{error}</p>
-        )}
+        {authStatus === "failed" && <p style={{ color: "red" }}>{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
