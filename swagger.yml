@@ -1,0 +1,240 @@
+openapi: 3.0.3
+info:
+  title: Argent Bank API
+  description: API pour la gestion des comptes, profils utilisateurs et transactions d'Argent Bank.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Erreur d’authentification"
+
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "abc123"
+        email:
+          type: string
+          example: "tony@stark.com"
+        userName:
+          type: string
+          example: "IronMan"
+        firstName:
+          type: string
+          example: "Tony"
+        lastName:
+          type: string
+          example: "Stark"
+
+    ProfileListExample:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+          userName:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
+      example:
+        - id: "tony01"
+          email: "tony@stark.com"
+          userName: "IronMan"
+          firstName: "Tony"
+          lastName: "Stark"
+        - id: "steve01"
+          email: "steve@rogers.com"
+          userName: "CapAmerica"
+          firstName: "Steve"
+          lastName: "Rogers"
+
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          example: acc_001
+        type:
+          type: string
+          example: "Checking"
+        balance:
+          type: number
+          format: float
+          example: 3250.75
+        currency:
+          type: string
+          example: "EUR"
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          example: txn_987
+        date:
+          type: string
+          format: date
+          example: "2025-06-23"
+        type:
+          type: string
+          example: "Withdrawal"
+        amount:
+          type: number
+          format: float
+          example: 50.00
+        description:
+          type: string
+          example: "Retrait DAB"
+
+security:
+  - bearerAuth: []
+
+paths:
+  /user/profile:
+    get:
+      summary: Récupérer le profil utilisateur connecté
+      tags:
+        - Utilisateur
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Profil utilisateur récupéré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  body:
+                    $ref: "#/components/schemas/Profile"
+        "401":
+          description: Non autorisé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    put:
+      summary: Mettre à jour le nom d’utilisateur
+      tags:
+        - Utilisateur
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userName
+              properties:
+                userName:
+                  type: string
+                  example: "IronMan"
+      responses:
+        "200":
+          description: Mise à jour réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  body:
+                    $ref: "#/components/schemas/Profile"
+        "400":
+          description: Requête invalide
+        "401":
+          description: Non autorisé
+
+  /accounts:
+    get:
+      summary: Liste des comptes de l’utilisateur connecté
+      tags:
+        - Comptes
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Comptes récupérés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  body:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Account"
+        "401":
+          description: Non autorisé
+
+  /accounts/{accountId}/transactions:
+    get:
+      summary: Liste des transactions liées à un compte
+      tags:
+        - Transactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID du compte
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+          description: Tri des transactions par date
+      responses:
+        "200":
+          description: Transactions récupérées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  body:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Transaction"
+        "401":
+          description: Non autorisé
+        "404":
+          description: Compte introuvable

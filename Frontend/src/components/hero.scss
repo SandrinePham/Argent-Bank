@@ -25,6 +25,15 @@
   z-index: 1;
   padding: 2rem;
   margin: 2rem;
+
+  @media (max-width: 768px) {
+    width: 80%; // ou une valeur fixe plus petite (ex : 220px)
+    padding: 1rem;
+    margin: 1rem;
+    transform: translate(-50%, -50%); // centré plus naturellement
+    left: 50%;
+    right: auto;
+  }
 }
 
 .hero-subtitle {

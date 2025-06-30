@@ -64,6 +64,12 @@
   font-size: 30px;
   padding: 20px;
   color: variables.$secondary-color;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    font-size: 20px;
+    padding: 5px;
+  }
 }
 
 .headerUserName {
