@@ -18,9 +18,8 @@ const SignIn = () => {
     rememberMe: false,
   });
 
-  // ✅ Redirection automatique si connecté
   useEffect(() => {
-    if (token) {
+    if (token && typeof token === "string") {
       navigate("/dashboard");
     }
   }, [token, navigate]);
@@ -42,6 +41,8 @@ const SignIn = () => {
 
     dispatch(login({ email, password }));
   };
+
+  
 
   return (
     <main className="signin-page">

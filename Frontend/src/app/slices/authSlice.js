@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Action asynchrone pour le login
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
@@ -12,7 +11,10 @@ export const login = createAsyncThunk(
       });
 
       if (!response.ok) throw new Error("Identifiants invalides");
+
       const data = await response.json();
+
+      // On retourne uniquement le token (string)
       return data.body.token;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -38,10 +40,12 @@ const authSlice = createSlice({
     builder
       .addCase(login.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.token = action.payload;
+        state.token = action.payload; // token string ici
+        state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";

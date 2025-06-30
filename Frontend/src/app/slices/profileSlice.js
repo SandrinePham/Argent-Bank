@@ -1,26 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { apiFetch } from "../slices/api";
 
-// Appel API simulé pour récupérer le profil utilisateur
 export const fetchUserProfile = createAsyncThunk(
   "profile/fetchUserProfile",
-  async (token, thunkAPI) => {
+  async (_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.token;
+    if (!token) return thunkAPI.rejectWithValue("Non authentifié");
+
     try {
-      const response = await fetch(
+      const data = await apiFetch(
         "http://localhost:3001/api/v1/user/profile",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        { method: "GET" },
+        token
       );
-
-      if (!response.ok) {
-        throw new Error("Échec de récupération du profil");
-      }
-
-      const data = await response.json();
       return data.body;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -30,25 +22,19 @@ export const fetchUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   "profile/updateUserProfile",
-  async ({ token, userName }, thunkAPI) => {
+  async ({ userName }, thunkAPI) => {
+    const token = thunkAPI.getState().auth.token;
+    if (!token) return thunkAPI.rejectWithValue("Non authentifié");
+
     try {
-      const response = await fetch(
+      await apiFetch(
         "http://localhost:3001/api/v1/user/profile",
         {
           method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({ userName }),
-        }
+        },
+        token
       );
-
-      if (!response.ok) {
-        throw new Error("Échec de la mise à jour du profil");
-      }
-
-      await response.json();
       return { success: true };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

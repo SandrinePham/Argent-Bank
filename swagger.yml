@@ -171,6 +171,61 @@ paths:
           description: Requête invalide
         "401":
           description: Non autorisé
+/user/transactions:
+  get:
+    summary: Récupérer toutes les transactions de l'utilisateur connecté
+    tags:
+      - Transactions
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: Transactions récupérées avec succès
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                body:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Transaction"
+      "401":
+        description: Non autorisé
+/transactions/{transactionId}:
+  get:
+    summary: Récupérer le détail d'une transaction
+    tags:
+      - Transactions
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: transactionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID de la transaction à récupérer
+    responses:
+      "200":
+        description: Détail de la transaction récupéré
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                body:
+                  $ref: "#/components/schemas/Transaction"
+      "401":
+        description: Non autorisé
+      "404":
+        description: Transaction non trouvée
 
   /accounts:
     get:
