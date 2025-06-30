@@ -1,30 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiFetch } from "../slices/api";
 
+// FETCH profil utilisateur
 export const fetchUserProfile = createAsyncThunk(
   "profile/fetchUserProfile",
-  async (_, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
-    if (!token) return thunkAPI.rejectWithValue("Non authentifié");
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    if (!token) return rejectWithValue("Non authentifié");
 
     try {
-      const data = await apiFetch(
+      const response = await apiFetch(
         "http://localhost:3001/api/v1/user/profile",
         { method: "GET" },
         token
       );
-      return data.body;
+      return response.body; // contient id, email, userName...
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.message || "Erreur lors du fetch profil");
     }
   }
 );
 
+// UPDATE userName
 export const updateUserProfile = createAsyncThunk(
   "profile/updateUserProfile",
-  async ({ userName }, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
-    if (!token) return thunkAPI.rejectWithValue("Non authentifié");
+  async ({ userName }, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    if (!token) return rejectWithValue("Non authentifié");
 
     try {
       await apiFetch(
@@ -35,18 +37,19 @@ export const updateUserProfile = createAsyncThunk(
         },
         token
       );
-      return { success: true };
+      return userName;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.message || "Erreur lors de la mise à jour");
     }
   }
 );
 
+// SLICE
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
     user: null,
-    status: "idle",
+    status: "idle", // ou loading | succeeded | failed
     error: null,
   },
   reducers: {
@@ -58,8 +61,10 @@ const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // FETCH
       .addCase(fetchUserProfile.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -69,11 +74,17 @@ const profileSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
+
+      // UPDATE
       .addCase(updateUserProfile.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
-      .addCase(updateUserProfile.fulfilled, (state) => {
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.status = "succeeded";
+        if (state.user) {
+          state.user.userName = action.payload; // mettre à jour localement
+        }
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.status = "failed";
