@@ -12,8 +12,8 @@ const UserProfileForm = () => {
   const navigate = useNavigate();
 
   const token = useSelector((state) => state.auth.token);
-  const firstName = useSelector((state) => state.auth.firstName);
-  const lastName = useSelector((state) => state.auth.lastName);
+  const firstName = useSelector((state) => state.profile.user?.firstName);
+  const lastName = useSelector((state) => state.profile.user?.lastName);
   const user = useSelector((state) => state.profile.user);
 
   const [userName, setUserName] = useState("");
