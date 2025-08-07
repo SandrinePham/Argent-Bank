@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function AppRouter() {
   return (
-    <BrowserRouter>
-      <Routes></Routes>
+    <BrowserRouter basename="/Argent-Bank">
+      <Routes>
+        {/* tes routes ici */}
+      </Routes>
     </BrowserRouter>
   );
 }
