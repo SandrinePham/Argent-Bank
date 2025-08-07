@@ -8,16 +8,15 @@ import User from "../pages/User";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "../components/PrivateRoute";
 
+
 function App() {
   return (
-    <Router>
+    <Router basename="/Argent-Bank">
       <Header />
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
-
-          {/* Routes protégées */}
           <Route
             path="/dashboard"
             element={
@@ -40,4 +39,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
